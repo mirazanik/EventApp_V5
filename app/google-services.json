@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "5989701571",
+    "project_id": "hello-ju-b36c9",
+    "storage_bucket": "hello-ju-b36c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5989701571:android:01cc25668ac0f029188f76",
+        "android_client_info": {
+          "package_name": "com.miraz.helloju"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "5989701571-0t3q2j04pqbprug1dkdamnkbvgv9c4ee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.miraz.helloju",
+            "certificate_hash": "a167f7b53047ac78c9389863ef04d1a8a47b9f4d"
+          }
+        },
+        {
+          "client_id": "5989701571-v6pjsjv2fm4rmdajlfr8ln173obg0653.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRMNRAI74gV5qQ1yzkMmmS-MHgPR2aBAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "5989701571-v6pjsjv2fm4rmdajlfr8ln173obg0653.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

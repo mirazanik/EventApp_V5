@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    app:cardCornerRadius="5dp"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/bg_dialog_location">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_title_dialog_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="15dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/textView_enter_lat_lon"
+            android:textColor="@color/textViewTitle_dialog_location"
+            android:background="@color/title_bg_dialog_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInput_latitude_dialog_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/latitude"
+            android:textColorHint="@color/textView_hint_pro"
+            app:boxStrokeColor="@color/textView_box_select_color"
+            app:hintTextColor="@color/textView_hint_layout_pro"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_title_dialog_location">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText_latitude_dialog_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number|numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/editText_pro"
+                android:theme="@style/editText_style" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInput_longitude_dialog_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/longitude"
+            android:textColorHint="@color/textView_hint_pro"
+            app:boxStrokeColor="@color/textView_box_select_color"
+            app:hintTextColor="@color/textView_hint_layout_pro"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInput_latitude_dialog_location">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText_longitude_dialog_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number|numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/editText_pro"
+                android:theme="@style/editText_style" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_dialogBox_lat_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cornerRadius="5dp"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/button_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInput_longitude_dialog_location" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_find_lat_long"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/find_location"
+            android:textColor="@color/textView_link_dialog_location"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_dialogBox_lat_long" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+    </group>
+
+    <group android:visible="false">
+        <item
+            android:id="@+id/my_event"
+            android:icon="@drawable/ic_my_event"
+            android:title="@string/my_event" />
+        <item
+            android:id="@+id/create_an_event"
+            android:icon="@drawable/ic_create_event"
+            android:title="@string/create_an_event" />
+        <item
+            android:id="@+id/favourite_event"
+            android:icon="@drawable/ic_fav_event"
+            android:title="@string/favourite_event" />
+        <item
+            android:id="@+id/recent_view_event"
+            android:icon="@drawable/ic_recent_view"
+            android:title="@string/recently_view_event" />
+        <item
+            android:id="@+id/booking_event"
+            android:icon="@drawable/ic_booking"
+            android:title="@string/booking_event" />
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/ic_setting"
+            android:title="@string/setting" />
+        <item
+            android:id="@+id/login"
+            android:icon="@drawable/ic_login"
+            android:title="@string/login" />
+    </group>
+
+</menu>
