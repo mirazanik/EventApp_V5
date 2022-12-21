@@ -27,7 +27,6 @@ import com.applovin.mediation.nativeAds.MaxNativeAdLoader;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.bumptech.glide.Glide;
 import com.miraz.helloju.R;
-import com.miraz.helloju.activity.Login;
 import com.miraz.helloju.interFace.FavouriteIF;
 import com.miraz.helloju.interFace.OnClick;
 import com.miraz.helloju.item.EventList;
@@ -125,7 +124,7 @@ public class EventAdapter extends RecyclerView.Adapter {
                     method.addToFav(eventLists.get(position).getId(), method.userId(), type, position, favouriteIF);
                 } else {
                     Method.loginBack = true;
-                    activity.startActivity(new Intent(activity, Login.class));
+//                    activity.startActivity(new Intent(activity, Login.class));
                 }
             });
 

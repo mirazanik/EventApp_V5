@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.miraz.helloju.R;
 import com.miraz.helloju.activity.EventDetail;
-import com.miraz.helloju.activity.Login;
 import com.miraz.helloju.activity.MainActivity;
 import com.miraz.helloju.adapter.MyEventAdapter;
 import com.miraz.helloju.interFace.OnClick;
@@ -113,10 +112,6 @@ public class MyEventFragment extends Fragment {
             }
         });
 
-        buttonLogin.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), Login.class));
-            getActivity().finishAffinity();
-        });
 
         callData();
 

@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
@@ -25,13 +24,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.miraz.helloju.BuildConfig;
 import com.miraz.helloju.R;
-import com.miraz.helloju.fragment.BookEventFragment;
 import com.miraz.helloju.fragment.CategoryFragment;
 import com.miraz.helloju.fragment.EventFragment;
 import com.miraz.helloju.fragment.HomeFragment;
 import com.miraz.helloju.fragment.MyEventFragment;
-import com.miraz.helloju.fragment.ProfileFragment;
-import com.miraz.helloju.fragment.SettingFragment;
 import com.miraz.helloju.response.AppRP;
 import com.miraz.helloju.rest.ApiClient;
 import com.miraz.helloju.rest.ApiInterface;
@@ -40,18 +36,13 @@ import com.miraz.helloju.util.Constant;
 import com.miraz.helloju.util.Events;
 import com.miraz.helloju.util.GlobalBus;
 import com.miraz.helloju.util.Method;
-import com.facebook.login.LoginManager;
 import com.google.ads.consent.ConsentForm;
 import com.google.ads.consent.ConsentFormListener;
 import com.google.ads.consent.ConsentInfoUpdateListener;
 import com.google.ads.consent.ConsentInformation;
 import com.google.ads.consent.ConsentStatus;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
@@ -154,11 +145,6 @@ public class MainActivity extends AppCompatActivity
                                     getResources().getString(R.string.home)).commitAllowingStateLoss();
                             break;
 
-                        case -1:
-                            startActivity(new Intent(MainActivity.this, CreateEvent.class)
-                                    .putExtra("type", "create_event"));
-                            break;
-
                         case 1:
                             backStackRemove();
                             unCheck();
@@ -173,12 +159,6 @@ public class MainActivity extends AppCompatActivity
                             callEvent("fav_event", getResources().getString(R.string.favourite_event));
                             break;
 
-                        case 3:
-                            backStackRemove();
-                            unCheck();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new ProfileFragment(),
-                                    getResources().getString(R.string.profile)).commitAllowingStateLoss();
-                            break;
                     }
 
                     return null;
@@ -389,11 +369,6 @@ public class MainActivity extends AppCompatActivity
                         getResources().getString(R.string.my_event)).commitAllowingStateLoss();
                 return true;
 
-            case R.id.create_an_event:
-                deselectDrawerItem(2);
-                startActivity(new Intent(MainActivity.this, CreateEvent.class)
-                        .putExtra("type", "create_event"));
-                return true;
 
             case R.id.favourite_event:
                 backStackRemove();
@@ -410,31 +385,6 @@ public class MainActivity extends AppCompatActivity
                 callEvent("recentView", getResources().getString(R.string.recently_view_event));
                 return true;
 
-            case R.id.booking_event:
-                backStackRemove();
-                bottomNavBar.resetColoredItem(-2);
-                selectDrawerItem(5);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new BookEventFragment(),
-                        getResources().getString(R.string.booking_event)).commitAllowingStateLoss();
-                return true;
-
-            case R.id.setting:
-                backStackRemove();
-                bottomNavBar.resetColoredItem(-2);
-                selectDrawerItem(6);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new SettingFragment(),
-                        getResources().getString(R.string.setting)).commitAllowingStateLoss();
-                return true;
-
-            case R.id.login:
-                deselectDrawerItem(7);
-                if (method.isLogin()) {
-                    logout();
-                } else {
-                    startActivity(new Intent(MainActivity.this, Login.class));
-                    finishAffinity();
-                }
-                return true;
             default:
                 return true;
         }
@@ -566,55 +516,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    //alert message box
-    public void logout() {
-
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MainActivity.this, R.style.DialogTitleTextStyle);
-        builder.setCancelable(false);
-        builder.setMessage(getResources().getString(R.string.logout_message));
-        builder.setPositiveButton(getResources().getString(R.string.logout),
-                (arg0, arg1) -> {
-                    if (method.getLoginType().equals("google")) {
-
-                        // Configure sign-in to request the ic_user_login's ID, email address, and basic
-                        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                                .requestEmail()
-                                .build();
-
-                        // Build a GoogleSignInClient with the options specified by gso.
-                        //Google login
-                        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
-
-                        mGoogleSignInClient.signOut()
-                                .addOnCompleteListener(MainActivity.this, task -> {
-                                    method.editor.putBoolean(method.pref_login, false);
-                                    method.editor.commit();
-                                    startActivity(new Intent(MainActivity.this, Login.class));
-                                    finishAffinity();
-                                });
-                    } else if (method.getLoginType().equals("facebook")) {
-                        LoginManager.getInstance().logOut();
-                        method.editor.putBoolean(method.pref_login, false);
-                        method.editor.commit();
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                        finishAffinity();
-                    } else {
-                        method.editor.putBoolean(method.pref_login, false);
-                        method.editor.commit();
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                        finishAffinity();
-                    }
-                });
-        builder.setNegativeButton(getResources().getString(R.string.cancel),
-                (dialogInterface, i) -> {
-
-                });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-    }
 
     private void showAdDialog(String description, String link, String isCancel) {
         Dialog dialog = new Dialog(MainActivity.this);

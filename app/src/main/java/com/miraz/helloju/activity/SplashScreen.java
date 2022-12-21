@@ -239,14 +239,14 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
     //--------------Get Location-----------------//
 
     public void splash() {
-        if (method.isLogin()) {
-            login(method.userId(), method.getLoginType());
-        } else {
+//        if (method.isLogin()) {
+//            login(method.userId(), method.getLoginType());
+//        } else {
             callActivity();
-        }
+       // }
     }
 
-    public void login(String userId, String type) {
+/*    public void login(String userId, String type) {
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -289,8 +289,6 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
 
                                     method.editor.putBoolean(method.pref_login, false);
                                     method.editor.commit();
-                                    startActivity(new Intent(SplashScreen.this, Login.class));
-                                    finishAffinity();
 
                                 }
 
@@ -339,7 +337,7 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
                 method.alertBox(getResources().getString(R.string.failed_try_again));
             }
         });
-    }
+    }*/
 
     public void callActivity() {
 
@@ -360,7 +358,7 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
                 if (method.pref.getBoolean(method.show_login, true)) {
                     method.editor.putBoolean(method.show_login, false);
                     method.editor.commit();
-                    startActivity(new Intent(SplashScreen.this, Login.class));
+                    //startActivity(new Intent(SplashScreen.this, Login.class));
                 } else {
                     startActivity(new Intent(SplashScreen.this, MainActivity.class));
                 }

@@ -51,15 +51,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.miraz.helloju.activity.Login"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.miraz.helloju.activity.Register"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.miraz.helloju.activity.ForgetPassword"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.miraz.helloju.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -71,26 +62,8 @@
         <activity
             android:name="com.miraz.helloju.activity.EventImageView"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.miraz.helloju.activity.CreateEvent"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.miraz.helloju.activity.EventBooking"
-            android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.miraz.helloju.activity.AboutUs"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.miraz.helloju.activity.PrivacyPolicy"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.miraz.helloju.activity.Faq"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.miraz.helloju.activity.ContactUs"
-            android:screenOrientation="portrait" /> <!-- Include the AdActivity configChanges and theme. -->
+        <!-- Include the AdActivity configChanges and theme. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

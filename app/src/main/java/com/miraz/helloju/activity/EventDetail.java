@@ -41,12 +41,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.miraz.helloju.R;
 import com.miraz.helloju.adapter.GalleryAdapter;
-import com.miraz.helloju.fragment.ReportFragment;
 import com.miraz.helloju.interFace.OnClick;
 import com.miraz.helloju.response.DataRP;
 import com.miraz.helloju.response.EventDetailRP;
 import com.miraz.helloju.response.TicketDownloadRP;
-import com.miraz.helloju.response.TicketViewRP;
 import com.miraz.helloju.response.UserTicketListRP;
 import com.miraz.helloju.rest.ApiClient;
 import com.miraz.helloju.rest.ApiInterface;
@@ -110,10 +108,7 @@ public class EventDetail extends AppCompatActivity {
     private ConstraintLayout conNoData;
     private View view;
     private int REQUEST_CODE_PERMISSION_PDF = 101, REQUEST_CODE_PERMISSION_USERLIST = 102;
-    private MaterialButton button, buttonUserList, buttonViewTicket, buttonDownloadTicket;
-    private ImageView imageView, imageViewLogo, imageViewReport, imageViewFav, imageViewMap, imageViewPhone, imageViewEmail, imageViewWeb;
-    private MaterialTextView textViewTitle, textViewAddress, textViewEventDateTime, textViewRegisterEventDateTime, textViewTitleRemaining, textViewRemaining,
-            textViewPhone, textViewEmail, textViewWeb, textViewPerson, textViewPrice;
+    private ImageView imageView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -198,33 +193,8 @@ public class EventDetail extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView_ed);
         view = findViewById(R.id.view_ed);
-        imageViewLogo = findViewById(R.id.imageView_logo_ed);
-        imageViewReport = findViewById(R.id.imageView_report_ed);
-        imageViewFav = findViewById(R.id.imageView_fav_ed);
-        imageViewMap = findViewById(R.id.imageView_map_ed);
-        imageViewPhone = findViewById(R.id.imageView_phone_ed);
-        imageViewEmail = findViewById(R.id.imageView_email_ed);
-        imageViewWeb = findViewById(R.id.imageView_web_ed);
         conNoData = findViewById(R.id.con_noDataFound);
-
-        textViewTitle = findViewById(R.id.textView_title_ed);
-        textViewPrice = findViewById(R.id.textView_price_ed);
-        textViewPerson = findViewById(R.id.textView_person_ed);
-        textViewAddress = findViewById(R.id.textView_address_ed);
-        textViewEventDateTime = findViewById(R.id.textView_eventDateTime_ed);
-        textViewRegisterEventDateTime = findViewById(R.id.textView_registerEvent_dateTime_ed);
-        textViewTitleRemaining = findViewById(R.id.textView_titleRemaining_ed);
-        textViewRemaining = findViewById(R.id.textView_remaining_ed);
-        textViewPhone = findViewById(R.id.textView_phone_ed);
-        textViewEmail = findViewById(R.id.textView_email_ed);
-        textViewWeb = findViewById(R.id.textView_web_ed);
         webView = findViewById(R.id.webView_ed);
-
-        buttonDownloadTicket = findViewById(R.id.button_downloadTicket_ed);
-        buttonViewTicket = findViewById(R.id.button_viewTicket_ed);
-        buttonUserList = findViewById(R.id.button_userList_ed);
-        button = findViewById(R.id.button_event_booking_ed);
-
         viewPager = findViewById(R.id.viewpager_ed);
         pageIndicatorView = findViewById(R.id.pageIndicatorView);
 
@@ -232,15 +202,6 @@ public class EventDetail extends AppCompatActivity {
         method.bannerAd(linearLayout);
 
         conNoData.setVisibility(View.GONE);
-        button.setVisibility(View.GONE);
-
-        if (type.equals("book_event")) {
-            buttonDownloadTicket.setVisibility(View.VISIBLE);
-            buttonViewTicket.setVisibility(View.VISIBLE);
-        } else {
-            buttonDownloadTicket.setVisibility(View.GONE);
-            buttonViewTicket.setVisibility(View.GONE);
-        }
 
         imageView.setLayoutParams(new ConstraintLayout.LayoutParams(columnWidth, (int) (columnWidth / 1.5)));
         viewPager.setLayoutParams(new ConstraintLayout.LayoutParams(columnWidth, (int) (columnWidth / 1.5)));
@@ -254,7 +215,6 @@ public class EventDetail extends AppCompatActivity {
     public void getNotify(Events.EventUpdateDetail eventUpdateDetail) {
         coordinatorLayout.setVisibility(View.GONE);
         conNoData.setVisibility(View.GONE);
-        button.setVisibility(View.GONE);
         callData();
     }
 
@@ -262,7 +222,7 @@ public class EventDetail extends AppCompatActivity {
     public void getLogin(Events.Login login) {
         coordinatorLayout.setVisibility(View.GONE);
         conNoData.setVisibility(View.GONE);
-        button.setVisibility(View.GONE);
+
         callData();
     }
 
@@ -330,28 +290,7 @@ public class EventDetail extends AppCompatActivity {
 
                         if (eventDetailRP.getSuccess().equals("1")) {
 
-                            if (type.equals("book_event")) {
-                                button.setVisibility(View.GONE);
-                            } else {
-                                if (eventDetailRP.isIs_booking()) {
-                                    //anik
-                                    //button.setVisibility(View.VISIBLE);
-                                    button.setVisibility(View.GONE);
-                                } else {
-                                    button.setVisibility(View.GONE);
-                                }
-                            }
 
-                            if (eventDetailRP.isIs_userList()) {
-                                buttonUserList.setVisibility(View.VISIBLE);
-                                textViewTitleRemaining.setVisibility(View.VISIBLE);
-                                textViewRemaining.setVisibility(View.VISIBLE);
-                                textViewRemaining.setText(eventDetailRP.getRemain_tickets());
-                            } else {
-                                buttonUserList.setVisibility(View.GONE);
-                                textViewTitleRemaining.setVisibility(View.GONE);
-                                textViewRemaining.setVisibility(View.GONE);
-                            }
 
                             if (isMenu) {
 
@@ -368,61 +307,13 @@ public class EventDetail extends AppCompatActivity {
 
                                 MenuItem more = menu.findItem(R.id.action_more_option);
                                 if (eventDetailRP.isIs_userList()) {
-                                    more.setVisible(true);
-                                    MenuItem menuEdit = more.getSubMenu().findItem(R.id.edit_event);
-                                    MenuItem menuDelete = more.getSubMenu().findItem(R.id.delete_event);
 
-                                    menuEdit.setOnMenuItemClickListener(item -> {
-                                        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(EventDetail.this, R.style.DialogTitleTextStyle);
-                                        builder.setMessage(getResources().getString(R.string.edit_event_message));
-                                        builder.setCancelable(false);
-                                        builder.setPositiveButton(getResources().getString(R.string.yes),
-                                                (arg0, arg1) -> startActivity(new Intent(EventDetail.this, CreateEvent.class)
-                                                        .putExtra("type", "edit_event")
-                                                        .putExtra("id", eventDetailRP.getId())
-                                                        .putExtra("position", position)));
-                                        builder.setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> {
-
-                                        });
-
-                                        AlertDialog alertDialog = builder.create();
-                                        alertDialog.show();
-                                        return false;
-                                    });
-
-                                    menuDelete.setOnMenuItemClickListener(item -> {
-                                        deleteDialog(eventDetailRP.getId(), position);
-                                        return false;
-                                    });
 
                                 } else {
                                     more.setVisible(false);
                                 }
                             }
 
-                            if (eventDetailRP.isIs_fav()) {
-                                imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_hov));
-                            } else {
-                                imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav));
-                            }
-
-                            Glide.with(EventDetail.this).load(eventDetailRP.getEvent_logo_thumb())
-                                    .placeholder(R.drawable.placeholder_logo)
-                                    .into(imageViewLogo);
-
-                            imageViewLogo.setOnClickListener(v -> {
-                                method.click(0, "event_logo", "", "");
-                            });
-
-                            textViewTitle.setText(eventDetailRP.getEvent_title());
-                            textViewAddress.setText(eventDetailRP.getEvent_address());
-                            textViewEventDateTime.setText(eventDetailRP.getEvent_date_time());
-                            textViewRegisterEventDateTime.setText(eventDetailRP.getEvent_registration_date_time());
-                            textViewPhone.setText(eventDetailRP.getEvent_phone());
-                            textViewEmail.setText(eventDetailRP.getEvent_email());
-                            textViewWeb.setText(eventDetailRP.getEvent_website());
-                            textViewPrice.setText(eventDetailRP.getTicket_price());
-                            textViewPerson.setText(eventDetailRP.getEvent_ticket());
 
                             webView.setBackgroundColor(Color.TRANSPARENT);
                             webView.setFocusableInTouchMode(false);
@@ -464,134 +355,6 @@ public class EventDetail extends AppCompatActivity {
 
                             coordinatorLayout.setVisibility(View.VISIBLE);
 
-                            imageViewReport.setOnClickListener(v -> {
-                                if (method.isLogin()) {
-                                    BottomSheetDialogFragment bottomSheetDialogFragment = new ReportFragment();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("event_id", id);
-                                    bottomSheetDialogFragment.setArguments(bundle);
-                                    bottomSheetDialogFragment.show(getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
-                                } else {
-                                    Method.loginBack = true;
-                                    startActivity(new Intent(EventDetail.this, Login.class));
-                                }
-                            });
-
-                            imageViewFav.setOnClickListener(v -> {
-                                if (method.isLogin()) {
-                                    method.addToFav(eventDetailRP.getId(), method.userId(), "detail", 0, (isFavourite, message) -> {
-                                        if (isFavourite) {
-                                            imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_hov));
-                                        } else {
-                                            imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav));
-                                        }
-                                    });
-                                } else {
-                                    Method.loginBack = true;
-                                    startActivity(new Intent(EventDetail.this, Login.class));
-                                }
-                            });
-
-                            imageViewWeb.setOnClickListener(v -> {
-                                imageViewWeb.startAnimation(myAnim);
-                                try {
-                                    String url = eventDetailRP.getEvent_website();
-                                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                                        url = "http://" + url;
-                                    }
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    startActivity(browserIntent);
-                                } catch (Exception e) {
-                                    method.alertBox(getResources().getString(R.string.wrong));
-                                }
-                            });
-
-                            imageViewPhone.setOnClickListener(v -> {
-                                imageViewPhone.startAnimation(myAnim);
-                                try {
-                                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                                    callIntent.setData(Uri.parse("tel:" + eventDetailRP.getEvent_phone()));
-                                    startActivity(callIntent);
-                                } catch (Exception e) {
-                                    method.alertBox(getResources().getString(R.string.wrong));
-                                }
-                            });
-
-                            imageViewEmail.setOnClickListener(v -> {
-                                imageViewEmail.startAnimation(myAnim);
-                                try {
-                                    Intent emailIntent = new Intent(Intent.ACTION_VIEW);
-                                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{eventDetailRP.getEvent_email()});
-                                    emailIntent.setData(Uri.parse("mailto:"));
-                                    startActivity(emailIntent);
-                                } catch (ActivityNotFoundException ex) {
-                                    method.alertBox(getResources().getString(R.string.wrong));
-                                }
-
-                            });
-
-                            imageViewMap.setOnClickListener(v -> {
-                                if (method.isAppInstalled()) {
-                                    try {
-                                        String latitude = eventDetailRP.getEvent_map_latitude();
-                                        String longitude = eventDetailRP.getEvent_map_longitude();
-                                        Intent intent = new Intent(Intent.ACTION_VIEW,
-                                                Uri.parse("http://maps.google.com/maps?daddr=" + latitude + "," + longitude));
-                                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                                        startActivity(intent);
-                                    } catch (Exception e) {
-                                        method.alertBox(getResources().getString(R.string.wrong));
-                                    }
-                                } else {
-                                    method.alertBox(getResources().getString(R.string.map_not_install));
-                                }
-                            });
-
-                            buttonUserList.setOnClickListener(view -> {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_USERLIST);
-                                } else {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_USERLIST);
-                                    } else {
-                                        userList(eventDetailRP.getId());
-                                    }
-                                }
-                            });
-
-                            buttonViewTicket.setOnClickListener(view -> {
-                                if (method.isNetworkAvailable()) {
-                                    //viewTicket(eventDetailRP.getBooking_id());
-                                } else {
-                                    method.alertBox(getResources().getString(R.string.internet_connection));
-                                }
-                            });
-
-                            buttonDownloadTicket.setOnClickListener(view -> {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_PDF);
-                                } else {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_PDF);
-                                    } else {
-                                        ticketPdf(eventDetailRP.getBooking_id());
-                                    }
-                                }
-                            });
-
-                            button.setOnClickListener(v -> {
-                                if (method.isNetworkAvailable()) {
-                                    if (method.isLogin()) {
-                                        startActivity(new Intent(EventDetail.this, EventBooking.class)
-                                                .putExtra("event_id", id));
-                                    } else {
-                                        Method.loginBack = true;
-                                        startActivity(new Intent(EventDetail.this, Login.class));
-                                    }
-                                } else {
-                                    method.alertBox(getResources().getString(R.string.internet_connection));
-                                }
-                            });
 
                         } else {
                             conNoData.setVisibility(View.VISIBLE);

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.miraz.helloju.R;
-import com.miraz.helloju.activity.Login;
 import com.miraz.helloju.interFace.FavouriteIF;
 import com.miraz.helloju.interFace.OnClick;
 import com.miraz.helloju.item.EventList;
@@ -86,7 +85,7 @@ public class HomeNearByEvent extends RecyclerView.Adapter<HomeNearByEvent.ViewHo
                 method.addToFav(eventLists.get(position).getId(), method.userId(), type, position, favouriteIF);
             } else {
                 Method.loginBack = true;
-                activity.startActivity(new Intent(activity, Login.class));
+//                activity.startActivity(new Intent(activity, Login.class));
             }
         });
 
