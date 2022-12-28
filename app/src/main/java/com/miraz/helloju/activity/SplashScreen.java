@@ -131,11 +131,24 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
         }
 
         if (!isCancelled) {
-            if (!location()) {
-                enableLoc();
-            } else {
-                locationPermission();
-            }
+//            if (!location()) {
+//                enableLoc();
+//            } else {
+//                locationPermission();
+//            }
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Do something after 5s = 5000ms
+                    Constant.stringLatitude ="23.7698581";
+                    Constant.stringLongitude = "90.4045657";
+                    callActivity();
+                }
+            }, 3000);
+
+
         }
 
 
@@ -208,6 +221,13 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
         Constant.stringLatitude = String.valueOf(location.getLatitude());
         Constant.stringLongitude = String.valueOf(location.getLongitude());
 
+        Constant.stringLatitude ="23.7698581";
+        Constant.stringLongitude = "90.4045657";
+
+        //23.7698581
+        //90.4045657
+        Log.e("Constant.stringLatitude",Constant.stringLatitude);
+        Log.e("Cons.stringLongitude",Constant.stringLongitude);
         removeUpdateLocation();
         progressBar.setVisibility(View.GONE);
 

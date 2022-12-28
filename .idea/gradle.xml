@@ -10,11 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/SmoothCheckBox-master" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/bottomnavbar" />
-            <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/pdfgenerator" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -108,11 +108,42 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
+                <com.rd.PageIndicatorView
+                    android:id="@+id/pageIndicatorView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:piv_animationType="scale"
+                    app:piv_dynamicCount="true"
+                    app:piv_interactiveAnimation="true"
+                    app:piv_selectedColor="@color/page_indicator_active_ed"
+                    app:piv_unselectedColor="@color/page_indicator_inactive_ed"
+                    app:piv_viewPager="@id/viewpager_ed"
+                    attrs:piv_padding="4dp"
+                    attrs:piv_radius="4dp" />
+
+
+                <View
+                    android:id="@+id/view_dateTime_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/gray_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pageIndicatorView" />
+
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView_titleEventDetail_ed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:text="@string/event_detail"
                     android:textColor="@color/textView_title_ed"
@@ -120,8 +151,7 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="20dp"
-                    tools:ignore="MissingConstraints" />
+                    app:layout_constraintTop_toBottomOf="@+id/view_dateTime_ed" />
 
                 <WebView
                     android:id="@+id/webView_ed"
@@ -134,6 +164,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView_titleEventDetail_ed"
                     tools:ignore="WebViewLayout" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

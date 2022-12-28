@@ -90,8 +90,8 @@ dependencies {
     implementation 'com.startapp:inapp-sdk:4.10.1'
     implementation 'com.applovin:applovin-sdk:11.3.3'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    implementation project(path: ':SmoothCheckBox-master')
-    implementation project(path: ':bottomnavbar')
-    implementation project(path: ':pdfgenerator')
-    implementation project(path: ':library')
+//    implementation project(path: ':SmoothCheckBox-master')
+//    implementation project(path: ':bottomnavbar')
+//    implementation project(path: ':pdfgenerator')
+//    implementation project(path: ':library')
 }

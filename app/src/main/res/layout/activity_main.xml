@@ -28,26 +28,9 @@
             android:id="@+id/frameLayout_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_main" />
-
-        <io.github.jitinsharma.bottomnavbar.BottomNavBar
-            android:visibility="gone"
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:primary_btn_bg="@color/bottom_centerButton_bg"
-            app:primary_txt_color="@color/bottom_text"
-            app:secondary_image_clicked="@color/bottom_hover_item"
-            app:secondary_image_color="@color/bottom_text"
-            app:secondary_item_text_clicked="@color/bottom_hover_item"
-            app:secondary_txt_color="@color/bottom_text"
-            app:strip_bg="@color/bottom_nav_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout_main" />
 
         <LinearLayout
             android:id="@+id/linearLayout_main"

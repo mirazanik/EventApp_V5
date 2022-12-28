@@ -56,8 +56,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
-import io.github.jitinsharma.bottomnavbar.BottomNavBar;
-import io.github.jitinsharma.bottomnavbar.model.NavObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +71,6 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout linearLayout;
     private ConsentForm form;
     private ProgressBar progressBar;
-    private BottomNavBar bottomNavBar;
     private boolean isAdMOb = false;
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -114,55 +111,19 @@ public class MainActivity extends AppCompatActivity
         toolbar.setNavigationIcon(R.drawable.ic_side_nav);
 
         navigationView = findViewById(R.id.nav_view);
-        bottomNavBar = findViewById(R.id.bottomBar);
-
         navigationView.setNavigationItemSelectedListener(this);
         checkLogin();
 
         progressBar.setVisibility(View.GONE);
 
-        ArrayList<NavObject> navObjects = new ArrayList<>();
 
-        navObjects.add(new NavObject(getResources().getString(R.string.home), getResources().getDrawable(R.drawable.ic_home)));
-        navObjects.add(new NavObject(getResources().getString(R.string.category), getResources().getDrawable(R.drawable.ic_cat)));
-        navObjects.add(new NavObject(getResources().getString(R.string.favourite), getResources().getDrawable(R.drawable.ic_fav_event)));
-        navObjects.add(new NavObject(getResources().getString(R.string.profile), getResources().getDrawable(R.drawable.ic_profile)));
         Drawable drawer;
         if (method.isDarkMode()) {
             drawer = getResources().getDrawable(R.drawable.ic_upload_dark);
         } else {
             drawer = getResources().getDrawable(R.drawable.ic_upload);
         }
-        bottomNavBar.init(new NavObject(getResources().getString(R.string.upload), drawer), navObjects,
-                (integer, aBoolean) -> {
-                    switch (integer) {
 
-                        case 0:
-                            backStackRemove();
-                            unCheck();
-                            selectDrawerItem(0);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new HomeFragment(),
-                                    getResources().getString(R.string.home)).commitAllowingStateLoss();
-                            break;
-
-                        case 1:
-                            backStackRemove();
-                            unCheck();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new CategoryFragment(),
-                                    getResources().getString(R.string.category)).commitAllowingStateLoss();
-                            break;
-
-                        case 2:
-                            backStackRemove();
-                            unCheck();
-                            selectDrawerItem(3);
-                            callEvent("fav_event", getResources().getString(R.string.favourite_event));
-                            break;
-
-                    }
-
-                    return null;
-                });
 
 
         if (method.isNetworkAvailable()) {
@@ -299,7 +260,7 @@ public class MainActivity extends AppCompatActivity
                                         getResources().getString(R.string.home)).commitAllowingStateLoss();
 
                                 selectDrawerItem(0);
-                                bottomNavBar.setCurrentItem(0);
+//                                bottomNavBar.setCurrentItem(0);
                             }
 
 
@@ -321,7 +282,7 @@ public class MainActivity extends AppCompatActivity
                             getResources().getString(R.string.home)).commitAllowingStateLoss();
 
                     selectDrawerItem(0);
-                    bottomNavBar.setCurrentItem(0);
+//                    bottomNavBar.setCurrentItem(0);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -354,8 +315,6 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.home:
                 backStackRemove();
-                bottomNavBar.resetColoredItem(-2);
-                bottomNavBar.setCurrentItem(0);
                 selectDrawerItem(0);
                 getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new HomeFragment(),
                         getResources().getString(R.string.home)).commitAllowingStateLoss();
@@ -363,7 +322,6 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.my_event:
                 backStackRemove();
-                bottomNavBar.resetColoredItem(-2);
                 selectDrawerItem(1);
                 getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout_main, new MyEventFragment(),
                         getResources().getString(R.string.my_event)).commitAllowingStateLoss();
@@ -372,15 +330,12 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.favourite_event:
                 backStackRemove();
-                bottomNavBar.resetColoredItem(-2);
-                bottomNavBar.setCurrentItem(3);
                 selectDrawerItem(3);
                 callEvent("fav_event", getResources().getString(R.string.favourite_event));
                 return true;
 
             case R.id.recent_view_event:
                 backStackRemove();
-                bottomNavBar.resetColoredItem(-2);
                 selectDrawerItem(4);
                 callEvent("recentView", getResources().getString(R.string.recently_view_event));
                 return true;

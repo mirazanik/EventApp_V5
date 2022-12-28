@@ -1,23 +1,14 @@
 package com.miraz.helloju.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.print.PrintAttributes;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,12 +30,16 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.miraz.helloju.R;
 import com.miraz.helloju.adapter.GalleryAdapter;
 import com.miraz.helloju.interFace.OnClick;
 import com.miraz.helloju.response.DataRP;
 import com.miraz.helloju.response.EventDetailRP;
-import com.miraz.helloju.response.TicketDownloadRP;
 import com.miraz.helloju.response.UserTicketListRP;
 import com.miraz.helloju.rest.ApiClient;
 import com.miraz.helloju.rest.ApiInterface;
@@ -53,27 +48,13 @@ import com.miraz.helloju.util.Constant;
 import com.miraz.helloju.util.Events;
 import com.miraz.helloju.util.GlobalBus;
 import com.miraz.helloju.util.Method;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.rd.PageIndicatorView;
-import com.uttampanchasara.pdfgenerator.CreatePdf;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import io.github.lizhangqu.coreprogress.ProgressHelper;
@@ -87,6 +68,7 @@ import okio.Okio;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class EventDetail extends AppCompatActivity {
 
@@ -108,31 +90,38 @@ public class EventDetail extends AppCompatActivity {
     private ConstraintLayout conNoData;
     private View view;
     private int REQUEST_CODE_PERMISSION_PDF = 101, REQUEST_CODE_PERMISSION_USERLIST = 102;
+    //    private MaterialButton button, buttonUserList, buttonViewTicket, buttonDownloadTicket;
     private ImageView imageView;
+    //private ImageView  imageViewLogo, imageViewReport, imageViewFav, imageViewMap, imageViewPhone, imageViewEmail, imageViewWeb;
+//    private MaterialTextView textViewTitle, textViewAddress, textViewEventDateTime, textViewRegisterEventDateTime, textViewTitleRemaining, textViewRemaining,
+//            textViewPhone, textViewEmail, textViewWeb, textViewPerson, textViewPrice;
 
     @Override
-    protected void attachBaseContext(Context newBase) {
+    protected void attachBaseContext(Context newBase)
+    {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
-        onClick = (position, type, title, id) -> {
-            switch (type) {
+        onClick = (position, type, title, id) ->
+        {
+            switch (type)
+            {
                 case "event_gallery":
-                    if (eventDetailRP != null) {
+                    if (eventDetailRP != null)
+                    {
                         Constant.galleryLists.clear();
                         Constant.galleryLists.addAll(eventDetailRP.getGalleryLists());
-                        startActivity(new Intent(EventDetail.this, GalleryView.class)
-                                .putExtra("position", position));
+                        startActivity(new Intent(EventDetail.this, GalleryView.class).putExtra("position", position));
                     }
                     break;
                 case "event_image":
-                    startActivity(new Intent(EventDetail.this, EventImageView.class)
-                            .putExtra("url", eventDetailRP.getEvent_banner()));
+                    startActivity(new Intent(EventDetail.this, EventImageView.class).putExtra("url", eventDetailRP.getEvent_banner()));
                     break;
                 default:
                     startActivity(new Intent(EventDetail.this, EventImageView.class)
@@ -195,6 +184,30 @@ public class EventDetail extends AppCompatActivity {
         view = findViewById(R.id.view_ed);
         conNoData = findViewById(R.id.con_noDataFound);
         webView = findViewById(R.id.webView_ed);
+
+//        imageViewLogo = findViewById(R.id.imageView_logo_ed);
+//        imageViewReport = findViewById(R.id.imageView_report_ed);
+//        imageViewFav = findViewById(R.id.imageView_fav_ed);
+//        imageViewMap = findViewById(R.id.imageView_map_ed);
+//        imageViewPhone = findViewById(R.id.imageView_phone_ed);
+//        imageViewEmail = findViewById(R.id.imageView_email_ed);
+//        imageViewWeb = findViewById(R.id.imageView_web_ed);
+//        textViewTitle = findViewById(R.id.textView_title_ed);
+//        textViewPrice = findViewById(R.id.textView_price_ed);
+//        textViewPerson = findViewById(R.id.textView_person_ed);
+//        textViewAddress = findViewById(R.id.textView_address_ed);
+//        textViewEventDateTime = findViewById(R.id.textView_eventDateTime_ed);
+//        textViewRegisterEventDateTime = findViewById(R.id.textView_registerEvent_dateTime_ed);
+//        textViewTitleRemaining = findViewById(R.id.textView_titleRemaining_ed);
+//        textViewRemaining = findViewById(R.id.textView_remaining_ed);
+//        textViewPhone = findViewById(R.id.textView_phone_ed);
+//        textViewEmail = findViewById(R.id.textView_email_ed);
+//        textViewWeb = findViewById(R.id.textView_web_ed);
+//        buttonDownloadTicket = findViewById(R.id.button_downloadTicket_ed);
+//        buttonViewTicket = findViewById(R.id.button_viewTicket_ed);
+//        buttonUserList = findViewById(R.id.button_userList_ed);
+//        button = findViewById(R.id.button_event_booking_ed);
+
         viewPager = findViewById(R.id.viewpager_ed);
         pageIndicatorView = findViewById(R.id.pageIndicatorView);
 
@@ -202,6 +215,15 @@ public class EventDetail extends AppCompatActivity {
         method.bannerAd(linearLayout);
 
         conNoData.setVisibility(View.GONE);
+/*        button.setVisibility(View.GONE);
+
+        if (type.equals("book_event")) {
+            buttonDownloadTicket.setVisibility(View.VISIBLE);
+            buttonViewTicket.setVisibility(View.VISIBLE);
+        } else {
+            buttonDownloadTicket.setVisibility(View.GONE);
+            buttonViewTicket.setVisibility(View.GONE);
+        }*/
 
         imageView.setLayoutParams(new ConstraintLayout.LayoutParams(columnWidth, (int) (columnWidth / 1.5)));
         viewPager.setLayoutParams(new ConstraintLayout.LayoutParams(columnWidth, (int) (columnWidth / 1.5)));
@@ -215,6 +237,7 @@ public class EventDetail extends AppCompatActivity {
     public void getNotify(Events.EventUpdateDetail eventUpdateDetail) {
         coordinatorLayout.setVisibility(View.GONE);
         conNoData.setVisibility(View.GONE);
+//        button.setVisibility(View.GONE);
         callData();
     }
 
@@ -222,7 +245,7 @@ public class EventDetail extends AppCompatActivity {
     public void getLogin(Events.Login login) {
         coordinatorLayout.setVisibility(View.GONE);
         conNoData.setVisibility(View.GONE);
-
+//        button.setVisibility(View.GONE);
         callData();
     }
 
@@ -282,39 +305,109 @@ public class EventDetail extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<EventDetailRP> call, @NotNull Response<EventDetailRP> response) {
 
-                try {
+                try
+                {
                     eventDetailRP = response.body();
                     assert eventDetailRP != null;
 
-                    if (eventDetailRP.getStatus().equals("1")) {
+                    if (eventDetailRP.getStatus().equals("1"))
+                    {
 
-                        if (eventDetailRP.getSuccess().equals("1")) {
+                        if (eventDetailRP.getSuccess().equals("1"))
+                        {
+//                            if (type.equals("book_event")) {
+//                                button.setVisibility(View.GONE);
+//                            } else {
+//                                if (eventDetailRP.isIs_booking()) {
+//                                    button.setVisibility(View.VISIBLE);
+//                                } else {
+//                                    button.setVisibility(View.GONE);
+//                                }
+//                            }
 
+//                            if (eventDetailRP.isIs_userList()) {
+//                                buttonUserList.setVisibility(View.VISIBLE);
+//                                textViewTitleRemaining.setVisibility(View.VISIBLE);
+//                                textViewRemaining.setVisibility(View.VISIBLE);
+//                                textViewRemaining.setText(eventDetailRP.getRemain_tickets());
+//                            } else {
+//                                buttonUserList.setVisibility(View.GONE);
+//                                textViewTitleRemaining.setVisibility(View.GONE);
+//                                textViewRemaining.setVisibility(View.GONE);
+//                            }
+                            if (isMenu)
+                            {
 
-
-                            if (isMenu) {
-
-                                MenuItem share = menu.findItem(R.id.action_share);
-                                share.setOnMenuItemClickListener(item -> {
-
-                                    Intent intent = new Intent(Intent.ACTION_SEND);
-                                    intent.setType("text/plain");
-                                    intent.putExtra(Intent.EXTRA_TEXT, eventDetailRP.getShare_link());
-                                    startActivity(Intent.createChooser(intent, getResources().getString(R.string.choose_one)));
-
-                                    return false;
-                                });
+//                                MenuItem share = menu.findItem(R.id.action_share);
+//                                share.setOnMenuItemClickListener(item ->
+//                                {
+//
+//                                    Intent intent = new Intent(Intent.ACTION_SEND);
+//                                    intent.setType("text/plain");
+//                                    intent.putExtra(Intent.EXTRA_TEXT, eventDetailRP.getShare_link());
+//                                    startActivity(Intent.createChooser(intent, getResources().getString(R.string.choose_one)));
+//
+//                                    return false;
+//                                });
 
                                 MenuItem more = menu.findItem(R.id.action_more_option);
-                                if (eventDetailRP.isIs_userList()) {
+                                if (eventDetailRP.isIs_userList())
+                                {
+                                    more.setVisible(true);
+                                    MenuItem menuEdit = more.getSubMenu().findItem(R.id.edit_event);
+                                    MenuItem menuDelete = more.getSubMenu().findItem(R.id.delete_event);
+//                                    menuEdit.setOnMenuItemClickListener(item -> {
+//                                        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(EventDetail.this, R.style.DialogTitleTextStyle);
+//                                        builder.setMessage(getResources().getString(R.string.edit_event_message));
+//                                        builder.setCancelable(false);
+//                                        builder.setPositiveButton(getResources().getString(R.string.yes),
+//                                                (arg0, arg1) -> startActivity(new Intent(EventDetail.this, CreateEvent.class)
+//                                                        .putExtra("type", "edit_event")
+//                                                        .putExtra("id", eventDetailRP.getId())
+//                                                        .putExtra("position", position)));
+//                                        builder.setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> {
+//
+//                                        });
+//
+//                                        AlertDialog alertDialog = builder.create();
+//                                        alertDialog.show();
+//                                        return false;
+//                                    });
+                                    menuDelete.setOnMenuItemClickListener(item ->
+                                    {
+                                        deleteDialog(eventDetailRP.getId(), position);
+                                        return false;
+                                    });
 
-
-                                } else {
+                                }
+                                else
+                                {
                                     more.setVisible(false);
                                 }
                             }
-
-
+//                            if (eventDetailRP.isIs_fav()) {
+//                                imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_hov));
+//                            } else {
+//                                imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav));
+//                            }
+//
+//                            Glide.with(EventDetail.this).load(eventDetailRP.getEvent_logo_thumb())
+//                                    .placeholder(R.drawable.placeholder_logo)
+//                                    .into(imageViewLogo);
+//
+//                            imageViewLogo.setOnClickListener(v -> {
+//                                method.click(0, "event_logo", "", "");
+//                            });
+//
+//                            textViewTitle.setText(eventDetailRP.getEvent_title());
+//                            textViewAddress.setText(eventDetailRP.getEvent_address());
+//                            textViewEventDateTime.setText(eventDetailRP.getEvent_date_time());
+//                            textViewRegisterEventDateTime.setText(eventDetailRP.getEvent_registration_date_time());
+//                            textViewPhone.setText(eventDetailRP.getEvent_phone());
+//                            textViewEmail.setText(eventDetailRP.getEvent_email());
+//                            textViewWeb.setText(eventDetailRP.getEvent_website());
+//                            textViewPrice.setText(eventDetailRP.getTicket_price());
+//                            textViewPerson.setText(eventDetailRP.getEvent_ticket());
                             webView.setBackgroundColor(Color.TRANSPARENT);
                             webView.setFocusableInTouchMode(false);
                             webView.setFocusable(false);
@@ -323,29 +416,23 @@ public class EventDetail extends AppCompatActivity {
                             String mimeType = "text/html";
                             String encoding = "utf-8";
 
-                            String text = "<html dir=" + method.isWebViewTextRtl() + "><head>"
-                                    + "<style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/fonts/montserrat_regular.ttf\")}body{font-family: MyFont;color: " + method.webViewText() + "line-height:1.6}"
-                                    + "a {color:" + method.webViewLink() + "text-decoration:none}"
-                                    + "</style>"
-                                    + "</head>"
-                                    + "<body>"
-                                    + eventDetailRP.getEvent_description()
-                                    + "</body></html>";
+                            String text = "<html dir=" + method.isWebViewTextRtl() + "><head>" + "<style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/fonts/montserrat_regular.ttf\")}body{font-family: MyFont;color: " + method.webViewText() + "line-height:1.6}" + "a {color:" + method.webViewLink() + "text-decoration:none}" + "</style>" + "</head>" + "<body>" + eventDetailRP.getEvent_description() + "</body></html>";
 
                             webView.loadDataWithBaseURL(null, text, mimeType, encoding, null);
 
-                            if (eventDetailRP.getGalleryLists().size() == 0) {
+                            if (eventDetailRP.getGalleryLists().size() == 0)
+                            {
                                 imageView.setVisibility(View.VISIBLE);
                                 viewPager.setVisibility(View.GONE);
                                 pageIndicatorView.setVisibility(View.GONE);
-                                Glide.with(EventDetail.this)
-                                        .load(eventDetailRP.getEvent_banner())
-                                        .placeholder(R.drawable.placeholder_banner)
-                                        .into(imageView);
-                                imageView.setOnClickListener(v -> {
+                                Glide.with(EventDetail.this).load(eventDetailRP.getEvent_banner()).placeholder(R.drawable.placeholder_banner).into(imageView);
+                                imageView.setOnClickListener(v ->
+                                {
                                     method.click(0, "event_image", "", "");
                                 });
-                            } else {
+                            }
+                            else
+                            {
                                 imageView.setVisibility(View.GONE);
                                 viewPager.setVisibility(View.VISIBLE);
                                 pageIndicatorView.setVisibility(View.VISIBLE);
@@ -355,6 +442,134 @@ public class EventDetail extends AppCompatActivity {
 
                             coordinatorLayout.setVisibility(View.VISIBLE);
 
+                            /*imageViewReport.setOnClickListener(v -> {
+                                if (method.isLogin()) {
+                                    BottomSheetDialogFragment bottomSheetDialogFragment = new ReportFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("event_id", id);
+                                    bottomSheetDialogFragment.setArguments(bundle);
+                                    bottomSheetDialogFragment.show(getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
+                                } else {
+                                    Method.loginBack = true;
+                                    startActivity(new Intent(EventDetail.this, Login.class));
+                                }
+                            });
+
+                            imageViewFav.setOnClickListener(v -> {
+                                if (method.isLogin()) {
+                                    method.addToFav(eventDetailRP.getId(), method.userId(), "detail", 0, (isFavourite, message) -> {
+                                        if (isFavourite) {
+                                            imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav_hov));
+                                        } else {
+                                            imageViewFav.setImageDrawable(getResources().getDrawable(R.drawable.ic_fav));
+                                        }
+                                    });
+                                } else {
+                                    Method.loginBack = true;
+                                    startActivity(new Intent(EventDetail.this, Login.class));
+                                }
+                            });
+
+                            imageViewWeb.setOnClickListener(v -> {
+                                imageViewWeb.startAnimation(myAnim);
+                                try {
+                                    String url = eventDetailRP.getEvent_website();
+                                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                                        url = "http://" + url;
+                                    }
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    startActivity(browserIntent);
+                                } catch (Exception e) {
+                                    method.alertBox(getResources().getString(R.string.wrong));
+                                }
+                            });
+
+                            imageViewPhone.setOnClickListener(v -> {
+                                imageViewPhone.startAnimation(myAnim);
+                                try {
+                                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                                    callIntent.setData(Uri.parse("tel:" + eventDetailRP.getEvent_phone()));
+                                    startActivity(callIntent);
+                                } catch (Exception e) {
+                                    method.alertBox(getResources().getString(R.string.wrong));
+                                }
+                            });
+
+                            imageViewEmail.setOnClickListener(v -> {
+                                imageViewEmail.startAnimation(myAnim);
+                                try {
+                                    Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{eventDetailRP.getEvent_email()});
+                                    emailIntent.setData(Uri.parse("mailto:"));
+                                    startActivity(emailIntent);
+                                } catch (ActivityNotFoundException ex) {
+                                    method.alertBox(getResources().getString(R.string.wrong));
+                                }
+
+                            });
+
+                            imageViewMap.setOnClickListener(v -> {
+                                if (method.isAppInstalled()) {
+                                    try {
+                                        String latitude = eventDetailRP.getEvent_map_latitude();
+                                        String longitude = eventDetailRP.getEvent_map_longitude();
+                                        Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("http://maps.google.com/maps?daddr=" + latitude + "," + longitude));
+                                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                                        startActivity(intent);
+                                    } catch (Exception e) {
+                                        method.alertBox(getResources().getString(R.string.wrong));
+                                    }
+                                } else {
+                                    method.alertBox(getResources().getString(R.string.map_not_install));
+                                }
+                            });
+
+                            buttonUserList.setOnClickListener(view -> {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_USERLIST);
+                                } else {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_USERLIST);
+                                    } else {
+                                        userList(eventDetailRP.getId());
+                                    }
+                                }
+                            });
+
+                            buttonViewTicket.setOnClickListener(view -> {
+                                if (method.isNetworkAvailable()) {
+                                    viewTicket(eventDetailRP.getBooking_id());
+                                } else {
+                                    method.alertBox(getResources().getString(R.string.internet_connection));
+                                }
+                            });
+
+                            buttonDownloadTicket.setOnClickListener(view -> {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_PDF);
+                                } else {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION_PDF);
+                                    } else {
+                                        ticketPdf(eventDetailRP.getBooking_id());
+                                    }
+                                }
+                            });
+
+                            button.setOnClickListener(v -> {
+                                if (method.isNetworkAvailable()) {
+                                    if (method.isLogin()) {
+                                        startActivity(new Intent(EventDetail.this, EventBooking.class)
+                                                .putExtra("event_id", id));
+                                    } else {
+                                        Method.loginBack = true;
+                                        startActivity(new Intent(EventDetail.this, Login.class));
+                                    }
+                                } else {
+                                    method.alertBox(getResources().getString(R.string.internet_connection));
+                                }
+                            });*/
 
                         } else {
                             conNoData.setVisibility(View.VISIBLE);
@@ -394,7 +609,7 @@ public class EventDetail extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_PERMISSION_PDF) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (eventDetailRP != null) {
-                    ticketPdf(eventDetailRP.getBooking_id());
+//                    ticketPdf(eventDetailRP.getBooking_id());
                 } else {
                     method.alertBox(getResources().getString(R.string.wrong));
                 }
@@ -482,6 +697,7 @@ public class EventDetail extends AppCompatActivity {
             public void onFailure(@NotNull Call<DataRP> call, @NotNull Throwable t) {
                 // Log error here since request failed
                 Log.e("onFailure_data", t.toString());
+
                 progressDialog.dismiss();
                 method.alertBox(getResources().getString(R.string.failed_try_again));
             }
@@ -489,9 +705,57 @@ public class EventDetail extends AppCompatActivity {
 
     }
 
+/*    public void viewTicket(String ticketId) {
 
+        progressDialog.show();
+        progressDialog.setMessage(getResources().getString(R.string.loading));
+        progressDialog.setCancelable(false);
 
-    public void ticketPdf(String ticketId) {
+        JsonObject jsObj = (JsonObject) new Gson().toJsonTree(new API(EventDetail.this));
+        jsObj.addProperty("booking_id", ticketId);
+        jsObj.addProperty("is_dark", method.isDarkMode());
+        jsObj.addProperty("method_name", "view_ticket");
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<TicketViewRP> call = apiService.viewTicket(API.toBase64(jsObj.toString()));
+        call.enqueue(new Callback<TicketViewRP>() {
+            @Override
+            public void onResponse(@NotNull Call<TicketViewRP> call, @NotNull Response<TicketViewRP> response) {
+
+                try {
+
+                    TicketViewRP ticketViewRP = response.body();
+
+                    assert ticketViewRP != null;
+                    if (ticketViewRP.getStatus().equals("1")) {
+                        if (ticketViewRP.getSuccess().equals("1")) {
+                            startActivity(new Intent(EventDetail.this, ViewTicket.class)
+                                    .putExtra("url", ticketViewRP.getUrl()));
+                        }
+                    } else {
+                        method.alertBox(ticketViewRP.getMessage());
+                    }
+
+                } catch (Exception e) {
+                    Log.d("exception_error", e.toString());
+                    method.alertBox(getResources().getString(R.string.failed_try_again));
+                }
+
+                progressDialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<TicketViewRP> call, @NotNull Throwable t) {
+                // Log error here since request failed
+                Log.e("onFailure_data", t.toString());
+                progressDialog.dismiss();
+                method.alertBox(getResources().getString(R.string.failed_try_again));
+            }
+        });
+
+    }*/
+
+/*    public void ticketPdf(String ticketId) {
 
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.loading));
@@ -510,13 +774,6 @@ public class EventDetail extends AppCompatActivity {
 
                     TicketDownloadRP ticketDownloadRP = response.body();
 
-                    String filePath;
-                    if (android.os.Build.VERSION.SDK_INT != 29) {
-                        filePath = Constant.appStorage + "/";
-                    } else {
-                        filePath = getExternalCacheDir() + "/";
-                    }
-
                     assert ticketDownloadRP != null;
                     if (ticketDownloadRP.getStatus().equals("1")) {
                         if (ticketDownloadRP.getSuccess().equals("1")) {
@@ -527,7 +784,7 @@ public class EventDetail extends AppCompatActivity {
                                     .setContentBaseUrl("file:///android_asset/image/")
                                     .setPageSize(PrintAttributes.MediaSize.ISO_A4)
                                     .setContent(ticketDownloadRP.getString_data())
-                                    .setFilePath(filePath)
+                                    .setFilePath(Constant.appStorage + "/")
                                     .setCallbackListener(new CreatePdf.PdfCallbackListener() {
                                         @Override
                                         public void onFailure(@NotNull String s) {
@@ -538,12 +795,8 @@ public class EventDetail extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(@NotNull String s) {
                                             // do your stuff here
-                                            if (Build.VERSION.SDK_INT != 29) {
-                                                showMedia(Constant.appStorage, ticketDownloadRP.getFile_name() + ".pdf");
-                                                method.alertBox(getResources().getString(R.string.ticket_download));
-                                            } else {
-                                                new LoadDownloadTicket("", ticketDownloadRP.getFile_name() + ".pdf").execute();
-                                            }
+                                            showMedia(Constant.appStorage, ticketDownloadRP.getFile_name() + ".pdf");
+                                            method.alertBox(getResources().getString(R.string.ticket_download));
                                         }
                                     })
                                     .create();
@@ -570,7 +823,7 @@ public class EventDetail extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     public void userList(String eventId) {
 
@@ -677,31 +930,20 @@ public class EventDetail extends AppCompatActivity {
                     public void onUIProgressFinish() {
                         super.onUIProgressFinish();
                         progressDialog.dismiss();
-                        if (Build.VERSION.SDK_INT < 29) {
-                            showMedia(Constant.appStorage, fileName);
-                        }
+                        showMedia(Constant.appStorage, fileName);
                         Log.e("TAG", "onUIProgressFinish:");
                     }
                 });
 
+
                 try {
-                    String path;
-                    if(Build.VERSION.SDK_INT < 29) {
-                        path = Constant.appStorage;
-                    } else {
-                        path = getExternalCacheDir().getPath();
-                    }
 
                     BufferedSource source = responseBody.source();
-                    File outFile = new File(path + "/" + fileName);
+                    File outFile = new File(Constant.appStorage + "/" + fileName);
                     BufferedSink sink = Okio.buffer(Okio.sink(outFile));
                     source.readAll(sink);
                     sink.flush();
                     source.close();
-
-                    if (Build.VERSION.SDK_INT >= 29) {
-                        new LoadDownloadTicket("user", fileName).execute();
-                    }
 
                 } catch (Exception e) {
                     progressDialog.dismiss();
@@ -730,84 +972,5 @@ public class EventDetail extends AppCompatActivity {
         super.onDestroy();
         // Unregister the registered event.
         GlobalBus.getBus().unregister(this);
-    }
-
-    public class LoadDownloadTicket extends AsyncTask<String, String, String> {
-
-        String type, fileName;
-
-        LoadDownloadTicket(String type, String fileName) {
-            this.type = type;
-            this.fileName = fileName;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                int count;
-                String fileUrl = getExternalCacheDir() + File.separator + fileName;
-                if(fileName.contains(".")) {
-                    fileName = fileName.substring(0, fileName.lastIndexOf("."));
-                }
-
-                if (android.os.Build.VERSION.SDK_INT >= 29) {
-                    String filePath = Environment.DIRECTORY_DOWNLOADS;
-
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Downloads.MIME_TYPE, method.getMIMEType(fileUrl));
-                    values.put(MediaStore.Downloads.DATE_ADDED, System.currentTimeMillis() / 1000);
-                    values.put(MediaStore.Downloads.TITLE, fileName);
-                    values.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
-                    values.put(MediaStore.Downloads.DATE_TAKEN, System.currentTimeMillis());
-                    values.put(MediaStore.Downloads.RELATIVE_PATH, filePath);
-                    values.put(MediaStore.Downloads.IS_PENDING, true);
-
-                    Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
-                    if (uri != null) {
-                        try {
-                            OutputStream outputStream = getContentResolver().openOutputStream(uri);
-                            InputStream input = new BufferedInputStream(new FileInputStream(fileUrl), 8192);
-
-                            byte data[] = new byte[1024];
-                            while ((count = input.read(data)) != -1) {
-                                outputStream.write(data, 0, count);
-                            }
-
-                            outputStream.close();
-
-                            values.put(MediaStore.Downloads.IS_PENDING, false);
-                            getContentResolver().update(uri, values, null, null);
-
-                            return "1";
-                        } catch (Exception e) {
-                            return "0";
-                        }
-                    } else {
-                        return "0";
-                    }
-                } else {
-                    return "0";
-                }
-            } catch (Exception e) {
-                return "0";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if(!type.equals("user")) {
-                if (s.equals("1")) {
-                    showMedia(Constant.appStorage, fileName + ".pdf");
-                    method.alertBox(getResources().getString(R.string.ticket_download));
-                } else {
-                    method.alertBox(getResources().getString(R.string.failed_try_again));
-                }
-            } else {
-                if (s.equals("1")) {
-                    showMedia(Constant.appStorage, fileName);
-                }
-            }
-            super.onPostExecute(s);
-        }
     }
 }
